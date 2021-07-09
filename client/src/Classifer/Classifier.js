@@ -2,33 +2,36 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import "./Classifier.css";
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
 import axios from "axios";
 
 const Classifier = () => {
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const loadImage = (files) => {
     setTimeout(() => {
       setLoading(false);
       setFiles(files);
-    });
+      console.log(files);
+    }, 1000);
   };
-  const getImages = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/images/", {
-        headers: {
-          accept: "application/json",
-        },
-      })
-      .then((resp) => {
-        console.log(resp);
-      });
-  };
+  // const getImages = () => {
+  //   axios
+  //     .get("http://127.0.0.1:8000/api/images/", {
+  //       headers: {
+  //         accept: "application/json",
+  //       },
+  //     })
+  //     .then((resp) => {
+  //       console.log(resp);
+  //     });
+  // };
 
-  useEffect(() => {
-    getImages();
-  }, []);
+  // useEffect(() => {
+  //   getImages();
+  // }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length >= 1) {
@@ -65,13 +68,42 @@ const Classifier = () => {
           </>
         )}
       </div>
-      <h4 className="font-text">Files</h4>
-      <ul>{files[0]?.name}</ul>
+      <h4 className="font-text light__text">Files</h4>
+      <ul className="light-text">{files[0]?.name}</ul>
+      {files.length > 0 && (
+        <Button className="classify" size="lg">
+          <span>Classify</span>
+        </Button>
+      )}
       {loading && (
         <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
         </Spinner>
       )}
+      <div className="table">
+        <Table className="light__text" striped bordered>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Image name</th>
+              <th>Image path</th>
+              <th>Image type</th>
+              <th>Image size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {files.map((file, i) => (
+              <tr>
+                <td>1</td>
+                <td>{file.name}</td>
+                <td>{file.path}</td>
+                <td>{file.type}</td>
+                <td>{file.size}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 };

@@ -17,6 +17,10 @@
     color: #1E212D
 }
 
+.light__text {
+    color: #FAF3E0
+}
+
 .back:hover{
     border: 3px dashed #B68973;
     cursor: pointer;
@@ -39,4 +43,64 @@
     margin-top: auto;
     width: 40rem;
    margin: 0 auto;
+}
+
+
+
+.classify{
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem;
+    font-weight: bold;
+    transition: all 0.5s;
+    cursor: pointer;
+    color: #1E212D;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #FAF3E0; 
+}
+
+.classify:hover{
+    color: #1E212D;
+    background-color: #FAF3E0; 
+}
+
+
+.classify span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    
+}
+
+.classify span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+    
+}
+
+.classify:hover span {
+    padding-right: 25px;
+    
+}
+
+
+.classify:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.table{
+    width: 80%;
+    margin: 5rem auto;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: #EABF9F; 
+    color: #1E212D
 }

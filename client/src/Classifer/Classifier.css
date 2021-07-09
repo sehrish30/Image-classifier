@@ -1,0 +1,42 @@
+.back{
+    background: #FAF3E0;
+    border: 3px dashed #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    width: 100%;
+    margin: 10px 0;
+    padding: 75px 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.text{
+    color: #1E212D
+}
+
+.back:hover{
+    border: 3px dashed #B68973;
+    cursor: pointer;
+}
+
+.background{
+    background-color:#1E212D;
+    height: 100vh;
+    width: 100%;
+}
+
+.font-text {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.image__box{
+    position: relative;
+    justify-content:center;
+    align-items: center;
+    margin-top: auto;
+    width: 40rem;
+   margin: 0 auto;
+}

@@ -104,3 +104,12 @@
     background-color: #EABF9F; 
     color: #1E212D
 }
+
+.alert{
+    background-color: #B68973;
+    color: #FFFFFF;
+    width: 50%; 
+    margin: 0 auto;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: bold
+}

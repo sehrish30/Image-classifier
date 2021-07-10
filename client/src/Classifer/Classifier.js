@@ -3,39 +3,26 @@ import { useDropzone } from "react-dropzone";
 import "./Classifier.css";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import Table from "react-bootstrap/Table";
+import { Image } from "react-bootstrap";
 import axios from "axios";
 
 const Classifier = () => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [recentImage, setRecentImage] = useState(null);
 
   const loadImage = (files) => {
     setTimeout(() => {
-      console.log(`Haye${files}`);
       setLoading(false);
       setFiles(files);
     }, 1000);
   };
-  // const getImages = () => {
-  //   axios
-  //     .get("http://127.0.0.1:8000/api/images/", {
-  //       headers: {
-  //         accept: "application/json",
-  //       },
-  //     })
-  //     .then((resp) => {
-  //       console.log(resp);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getImages();
-  // }, []);
 
   const sendImage = () => {
+    activateSpinner();
     let formData = new FormData();
-    console.log(`files,${files[0]}`);
     formData.append("picture", files[0], files[0].path);
     axios
       .post("http://127.0.0.1:8000/api/images/", formData, {
@@ -45,15 +32,43 @@ const Classifier = () => {
         },
       })
       .then((resp) => {
-        console.log(resp);
+        console.log("CRY", resp.data.id);
+        getImage(resp);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
+  const activateSpinner = () => {
+    setLoading(true);
+    setFiles([]);
+  };
+
+  const deActivateSpinner = () => {
+    setLoading(false);
+  };
+
+  const getImage = (obj) => {
+    axios
+      .get(`http://127.0.0.1:8000/api/images/${obj.data.id}/`, {
+        headers: {
+          accept: "application/json",
+        },
+      })
+      .then((resp) => {
+        console.log(resp);
+        setRecentImage(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    deActivateSpinner();
+  };
+
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length >= 1) {
+      setRecentImage(null);
       // Do something with the files
       setLoading(true);
       console.log(acceptedFiles);
@@ -86,7 +101,6 @@ const Classifier = () => {
           </>
         )}
       </div>
-      <h4 className="font-text light__text">Files</h4>
       <ul className="light-text">{files[0]?.name}</ul>
       {files.length > 0 && (
         <Button onClick={sendImage} className="classify" size="lg">
@@ -94,34 +108,48 @@ const Classifier = () => {
         </Button>
       )}
       {loading && (
-        <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
+        <Spinner className="light__text" animation="border" role="status">
+          <span className="sr-only light__text">Loading...</span>
         </Spinner>
       )}
-      <div className="table">
-        <Table className="light__text" striped bordered>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Image name</th>
-              <th>Image path</th>
-              <th>Image type</th>
-              <th>Image size</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map((file, i) => (
-              <tr key={i}>
-                <td>1</td>
-                <td>{file.name}</td>
-                <td>{file.path}</td>
-                <td>{file.type}</td>
-                <td>{file.size}</td>
+
+      {recentImage && (
+        <>
+          <Image
+            className="justify-content-center"
+            src={recentImage.data.picture}
+            height="200"
+            rounded
+          />
+          <Alert className="alert">{recentImage.data.classified}</Alert>
+        </>
+      )}
+      {files.length > 0 && (
+        <div className="table">
+          <Table className="light__text" striped bordered>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Image name</th>
+                <th>Image path</th>
+                <th>Image type</th>
+                <th>Image size</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+            </thead>
+            <tbody>
+              {files.map((file, i) => (
+                <tr key={i}>
+                  <td>1</td>
+                  <td>{file.name}</td>
+                  <td>{file.path}</td>
+                  <td>{file.type}</td>
+                  <td>{file.size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 };

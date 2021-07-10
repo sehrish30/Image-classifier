@@ -12,9 +12,9 @@ const Classifier = () => {
 
   const loadImage = (files) => {
     setTimeout(() => {
+      console.log(`Haye${files}`);
       setLoading(false);
       setFiles(files);
-      console.log(files);
     }, 1000);
   };
   // const getImages = () => {
@@ -33,13 +33,31 @@ const Classifier = () => {
   //   getImages();
   // }, []);
 
+  const sendImage = () => {
+    let formData = new FormData();
+    console.log(`files,${files[0]}`);
+    formData.append("picture", files[0], files[0].path);
+    axios
+      .post("http://127.0.0.1:8000/api/images/", formData, {
+        headers: {
+          accept: "application/json",
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length >= 1) {
       // Do something with the files
       setLoading(true);
-
-      loadImage(acceptedFiles);
       console.log(acceptedFiles);
+      loadImage(acceptedFiles);
     } else {
     }
   }, []);
@@ -71,7 +89,7 @@ const Classifier = () => {
       <h4 className="font-text light__text">Files</h4>
       <ul className="light-text">{files[0]?.name}</ul>
       {files.length > 0 && (
-        <Button className="classify" size="lg">
+        <Button onClick={sendImage} className="classify" size="lg">
           <span>Classify</span>
         </Button>
       )}
@@ -93,7 +111,7 @@ const Classifier = () => {
           </thead>
           <tbody>
             {files.map((file, i) => (
-              <tr>
+              <tr key={i}>
                 <td>1</td>
                 <td>{file.name}</td>
                 <td>{file.path}</td>

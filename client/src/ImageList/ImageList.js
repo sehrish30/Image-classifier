@@ -6,9 +6,9 @@ import "../Classifer/Classifier.css";
 
 const ImageList = () => {
   const [images, setImages] = useState([]);
-  const [visible, setVisible] = useState(9);
   const [isLoading, setIsLoading] = useState(true);
-  const [newLoaded, setNewLoaded] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [showLoad, setShowLoad] = useState(true);
 
   useEffect(() => {
     setTimeout(getImages, 1500);
@@ -22,25 +22,42 @@ const ImageList = () => {
         },
       })
       .then((resp) => {
-        setImages(resp.data);
+        console.log("SEHRISH", resp.data);
+        setImages(resp.data.results);
         console.log(resp);
       });
     setIsLoading(false);
   };
 
-  const handleVisible = () => {
-    setNewLoaded(true);
-    setTimeout(() => {
-      setVisible(visible + 3);
-      setNewLoaded(false);
-    }, 300);
+  const handleVisible = async () => {
+    setIsLoading(true);
+
+    const res = await axios.get("http://127.0.0.1:8000/api/images/", {
+      params: {
+        l: 3,
+        o: offset + 3,
+      },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    setOffset(offset + 3);
+    if (res.status === 200 || res.status === 201) {
+      console.log(res.data.results.length);
+      setIsLoading(false);
+      if (res.data.results.length === 0) {
+        setShowLoad(false);
+      }
+      setImages((prev) => [...prev, ...res.data.results]);
+    }
   };
   return (
     <div className="background">
       <h1 className="light__text font-text mb-5 pt-2">Image List</h1>
       <div className="container ">
         <div class="row">
-          {images.slice(0, visible).map((image) => (
+          {images.map((image) => (
             <div key={image.id} className="col">
               <Image
                 key={image.id}
@@ -51,7 +68,7 @@ const ImageList = () => {
           ))}
         </div>
         <div className="container d-flex flex-column">
-          {(newLoaded || isLoading) && (
+          {isLoading && (
             <Spinner
               className="light__text mx-auto mb-3"
               animation="border"
@@ -61,7 +78,7 @@ const ImageList = () => {
             </Spinner>
           )}
 
-          {!newLoaded && !isLoading && (
+          {showLoad && !isLoading && (
             <Button onClick={handleVisible} variant="primary" size="md">
               Load more
             </Button>

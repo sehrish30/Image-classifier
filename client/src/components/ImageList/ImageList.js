@@ -53,7 +53,7 @@ const ImageList = () => {
     }
   };
   return (
-    <div className="background mb-3">
+    <div className="background mb-5 pt-5">
       <div className="container ">
         {images.length > 0 ? (
           <div class="row">
@@ -68,7 +68,7 @@ const ImageList = () => {
             ))}
           </div>
         ) : (
-          <div className="no__image font-text light__text bold__font">
+          <div className="no__image font-text light__text bold__font pt-5">
             <h3>No Images classified</h3>
           </div>
         )}

@@ -30,10 +30,11 @@ def image_post_save(sender, instance, created, *args, **kwargs):
             'media_root'+"/"+str(instance.picture), target_size=(299, 299))
 
         img_array = img_to_array(img)
-
+        # print(img_array.shape)
         # model takes 4 dimensions because it predicts multiple images so we will use numpy
         to_pred = np.expand_dims(img_array, axis=0)  # (1,333, 22, 25)
 
+        # print(to_pred.shape)
         # normalize data
         prep = preprocess_input(to_pred)
 

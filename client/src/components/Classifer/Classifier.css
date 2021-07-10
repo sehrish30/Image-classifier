@@ -14,7 +14,7 @@
 }
 
 .text{
-    color: #1E212D
+    color: #1E212D !important
 }
 
 .light__text {
@@ -54,14 +54,14 @@
     font-weight: bold;
     transition: all 0.5s;
     cursor: pointer;
-    color: #1E212D;
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: #FAF3E0; 
+    color: #1E212D!important;
+    background-color: #FAF3E0!important; 
 }
 
 .classify:hover{
-    color: #1E212D;
-    background-color: #FAF3E0; 
+    color: #1E212D!important;
+    background-color: #FAF3E0!important; 
 }
 
 
@@ -118,3 +118,35 @@
     width: 18rem
 }
 
+.bold__font{
+    font-style: italic;
+}
+
+.no__image{
+    min-height: 10em;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.load, .load:hover, .load:active{
+    background-color: #FAF3E0 !important;
+    color: #1E212D !important;
+    width: 100%;
+
+}
+
+.logo{
+    width: 3rem;
+    height: 3rem
+}
+
+.navbar{
+    background-color: #B68973;
+    color: #fff
+}
+
+.navbar-link{
+    font-weight: bold
+}

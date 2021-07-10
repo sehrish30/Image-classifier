@@ -46,27 +46,33 @@ const ImageList = () => {
     if (res.status === 200 || res.status === 201) {
       console.log(res.data.results.length);
       setIsLoading(false);
-      if (res.data.results.length === 0) {
+      if (res.data.results.length < 3) {
         setShowLoad(false);
       }
       setImages((prev) => [...prev, ...res.data.results]);
     }
   };
   return (
-    <div className="background">
-      <h1 className="light__text font-text mb-5 pt-2">Image List</h1>
+    <div className="background mb-3">
       <div className="container ">
-        <div class="row">
-          {images.map((image) => (
-            <div key={image.id} className="col">
-              <Image
-                key={image.id}
-                picture={image.picture}
-                name={image.classified}
-              />
-            </div>
-          ))}
-        </div>
+        {images.length > 0 ? (
+          <div class="row">
+            {images.map((image) => (
+              <div key={image.id} className="col">
+                <Image
+                  key={image.id}
+                  picture={image.picture}
+                  name={image.classified}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="no__image font-text light__text bold__font">
+            <h3>No Images classified</h3>
+          </div>
+        )}
+
         <div className="container d-flex flex-column">
           {isLoading && (
             <Spinner
@@ -78,10 +84,16 @@ const ImageList = () => {
             </Spinner>
           )}
 
-          {showLoad && !isLoading && (
-            <Button onClick={handleVisible} variant="primary" size="md">
-              Load more
-            </Button>
+          {showLoad && !isLoading && images.length > 0 && (
+            <div className="mx-auto mt-5">
+              <Button
+                onClick={handleVisible}
+                className="load font-text btn"
+                size="md"
+              >
+                Load more
+              </Button>
+            </div>
           )}
         </div>
       </div>

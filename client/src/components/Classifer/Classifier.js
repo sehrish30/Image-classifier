@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import "./Classifier.css";
 import Spinner from "react-bootstrap/Spinner";
@@ -83,7 +83,7 @@ const Classifier = () => {
   });
 
   return (
-    <div className="background">
+    <div className="background pt-3">
       <div {...getRootProps({ className: "dropzone back image__box" })}>
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -92,7 +92,7 @@ const Classifier = () => {
           </div>
         ) : (
           <>
-            <div className="">
+            <div>
               <i className="far fa-image mb-2 fa-3x text"></i>
               <p className="text font-text ">
                 Drag 'n' drop some files here, or click to select files

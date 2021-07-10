@@ -28,7 +28,7 @@
 
 .background{
     background-color:#1E212D;
-    height: 100vh;
+    height: 100%;
     width: 100%;
 }
 
@@ -113,3 +113,8 @@
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: bold
 }
+
+.card__style{
+    width: 18rem
+}
+
